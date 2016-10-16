@@ -55,8 +55,24 @@ if __name__ == "__main__":
 
     slides = create_slides(layers)
 
+    tex = ""
+
+    page_num = 1
     slide_num = 1
-    for s in slides:
-        print("Slide", slide_num, " : " , s)
-        export_visibles(svg_file, "out/slide" + str(slide_num).zfill(4) + ".svg", s)
-        slide_num+=1
+    for s in slides: # type: str
+        print("Slide", page_num, " : ", s)
+        export_visibles(svg_file, "out/slide" + str(page_num).zfill(4) + ".svg", s)
+
+        text_pn = str(slide_num)
+        slide_num_str = "[pagecommand={\\begin{tikzpicture}[remember picture, overlay, font=\\Large]\\node[] at (30,-23) {"+text_pn+"};\\end{tikzpicture}}]"
+        include_str = "    \\includepdf["+slide_num_str+"]{slide"+str(slide_num).zfill(4) + ".pdf}\n"
+
+        tex += include_str
+
+        slide_num+=1 # TODO
+        page_num+=1
+
+    tex += "\\end{document}"
+
+    print(tex)
+

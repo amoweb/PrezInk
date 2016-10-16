@@ -1,6 +1,17 @@
+echo "Working on presentation $1 \n"
+
+SVG_FILE=$1
+
+if [ ! -e "$SVG_FILE" ]
+then
+        echo "Usage: ./prezink.sh [file.svg]".
+        echo "File not found."
+        exit
+fi
+
 rm out/*
 
-python3.5 build_slides.py presentation.svg
+python3.5 build_slides.py "$SVG_FILE"
 
 cp template.tex out/prez.tex
 
@@ -16,6 +27,3 @@ echo "\\end{document}" >> out/prez.tex
 cd out/
 pdflatex prez.tex
 
-#\includepdf[pages=1]{cid.pdf}
-
-http://tex.stackexchange.com/questions/24663/how-to-place-a-floating-text-box-at-a-specified-location-in-page-coordinates
